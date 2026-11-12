@@ -1,0 +1,402 @@
+/* Reading mode. Also embedded in the standalone HTML export. */
+
+.xia-player {
+  --xia-blue: #0099cc;
+  --xia-ink: #1c2530;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: #11161c;
+  color: var(--xia-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.xia-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.xia-detail {
+  fill: transparent;
+  stroke: var(--xia-blue);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  outline: none;
+  transition: fill 0.15s;
+}
+
+.xia-detail:hover,
+.xia-detail:focus-visible {
+  fill: rgb(0 153 204 / 25%);
+}
+
+.xia-detail:focus-visible {
+  stroke: #fff;
+  stroke-width: 4;
+}
+
+.xia-detail-hidden,
+.xia-detail-hidden:hover {
+  fill: transparent;
+  stroke: none;
+  cursor: default;
+}
+
+.xia-bar {
+  position: absolute;
+  top: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.xia-bar-left {
+  left: 12px;
+}
+
+.xia-bar-right {
+  right: 12px;
+}
+
+.xia-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--xia-blue);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 35%);
+}
+
+.xia-button:hover {
+  background: #007da8;
+}
+
+.xia-button:focus-visible,
+.xia-thumb-zoom:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+.xia-icon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.xia-popup {
+  box-sizing: border-box;
+  width: min(760px, 94vw);
+  max-height: 90vh;
+  padding: 0;
+  border: 0;
+  border-top: 6px solid var(--xia-blue);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--xia-ink);
+  box-shadow: 0 12px 48px rgb(0 0 0 / 50%);
+  overflow: hidden;
+}
+
+.xia-popup[open] {
+  display: flex;
+  flex-direction: column;
+  animation: xia-pop 0.25s ease-out;
+}
+
+.xia-popup::backdrop,
+.xia-zoom::backdrop {
+  background: rgb(0 30 45 / 70%);
+}
+
+.xia-zoom::backdrop {
+  background: rgb(0 0 0 / 90%);
+}
+
+@keyframes xia-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.xia-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  box-shadow: none;
+}
+
+.xia-popup-close:focus-visible {
+  outline-color: var(--xia-ink);
+}
+
+.xia-popup-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 56px 16px 16px;
+  border-bottom: 1px solid #dfe5ea;
+}
+
+.xia-thumb {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 160px;
+  height: 160px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+}
+
+.xia-thumb-picture {
+  width: 100%;
+  height: 100%;
+}
+
+.xia-thumb-zoom {
+  cursor: zoom-in;
+  border-radius: 4px;
+}
+
+.xia-thumb-zoom:focus-visible {
+  outline-color: var(--xia-blue);
+}
+
+.xia-thumb-zoom .xia-icon {
+  position: absolute;
+  right: 4px;
+  bottom: 4px;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  padding: 5px;
+  border-radius: 50%;
+  background: var(--xia-blue);
+}
+
+.xia-popup-title {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.xia-popup-body {
+  padding: 4px 20px 20px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.xia-popup-body:empty {
+  display: none;
+}
+
+.xia-zoom {
+  max-width: 100vw;
+  max-height: 100vh;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #fff;
+  text-align: center;
+  cursor: zoom-out;
+  overflow: visible;
+}
+
+.xia-zoom[open] {
+  animation: xia-pop 0.25s ease-out;
+}
+
+.xia-zoom-picture {
+  display: block;
+  max-width: 96vw;
+  max-height: 90vh;
+  margin: auto;
+}
+
+.xia-zoom-caption {
+  margin: 8px 0 0;
+  font-size: 1.1rem;
+}
+
+.xia-metas {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 16px;
+  margin: 16px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #dfe5ea;
+  font-size: 0.92rem;
+}
+
+.xia-metas:empty {
+  display: none;
+}
+
+.xia-metas dt {
+  font-weight: 600;
+}
+
+.xia-metas dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Rendered Markdown */
+
+.xia-md {
+  overflow-wrap: anywhere;
+}
+
+.xia-md h1,
+.xia-md h2,
+.xia-md h3,
+.xia-md h4,
+.xia-md h5,
+.xia-md h6 {
+  margin: 1em 0 0.4em;
+  line-height: 1.25;
+}
+
+.xia-md h1 {
+  font-size: 1.35rem;
+}
+
+.xia-md h2 {
+  font-size: 1.2rem;
+}
+
+.xia-md h3,
+.xia-md h4,
+.xia-md h5,
+.xia-md h6 {
+  font-size: 1.05rem;
+}
+
+.xia-md p,
+.xia-md ul,
+.xia-md ol,
+.xia-md blockquote,
+.xia-md pre {
+  margin: 0.8em 0;
+}
+
+.xia-md ul,
+.xia-md ol {
+  padding-left: 1.5em;
+}
+
+.xia-md li > ul,
+.xia-md li > ol {
+  margin: 0.2em 0;
+}
+
+.xia-md a {
+  color: #00708f;
+}
+
+.xia-md blockquote {
+  padding: 0.1em 1em;
+  border-left: 4px solid var(--xia-blue);
+  background: #f1f7fa;
+}
+
+.xia-md code {
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+  background: #eef1f4;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.xia-md pre {
+  padding: 12px;
+  border-radius: 4px;
+  background: #eef1f4;
+  overflow-x: auto;
+}
+
+.xia-md pre code {
+  padding: 0;
+  background: none;
+}
+
+.xia-md hr {
+  margin: 1.2em 0;
+  border: 0;
+  border-top: 1px solid #c9d2da;
+}
+
+.xia-md img,
+.xia-md video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0.8em auto;
+}
+
+.xia-md audio {
+  display: block;
+  width: 100%;
+  margin: 0.8em 0;
+}
+
+.xia-embed {
+  position: relative;
+  margin: 0.8em 0;
+  aspect-ratio: 16 / 9;
+}
+
+.xia-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (width <= 560px) {
+  .xia-popup-head {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 16px;
+  }
+
+  .xia-thumb {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xia-popup[open],
+  .xia-zoom[open] {
+    animation: none;
+  }
+
+  .xia-detail {
+    transition: none;
+  }
+}
